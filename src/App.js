@@ -4,7 +4,7 @@ import axios from "axios";
 import { Switch, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
-import Vehicles from "./components/Vehicles";
+import Trivia from "./components/Trivia";
 import Planets from "./components/Planets";
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
           <Home />
         </Route>
         <Route exact path="/part1">
-          <Vehicles vehicles={vehicles} />
+          <Trivia vehicles={vehicles} />
         </Route>
         <Route exact path="/part2">
           <Planets planets={planets} />

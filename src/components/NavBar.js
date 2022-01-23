@@ -36,7 +36,7 @@ export const NavBar = () => (
               >
                 <li>
                   <Link className="dropdown-item" to="/part1">
-                    Part 1: Vehicles
+                    Part 1: Trivia
                   </Link>
                 </li>
                 <li>

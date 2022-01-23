@@ -1,8 +1,9 @@
-.bar-chart {
-  background-color: orange;
+body {
+  font-family: monospace;
 }
 
-.legend {
+.bar-chart {
+  background-color: orange;
 }
 
 .population,
