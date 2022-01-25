@@ -8,20 +8,9 @@ import Trivia from "./components/Trivia";
 import Planets from "./components/Planets";
 
 function App() {
-  const [vehicles, setVehicles] = useState([]);
   const [planets, setPlanets] = useState([]);
 
   useEffect(() => {
-    const getVehicles = async () => {
-      try {
-        let response = await axios.get("https://swapi.py4e.com/api/vehicles/");
-        let vehiclesData = response.data.results;
-        setVehicles(vehiclesData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     const getPlanets = async () => {
       try {
         let response = await axios.get("https://swapi.py4e.com/api/planets");
@@ -32,7 +21,6 @@ function App() {
       }
     };
 
-    getVehicles();
     getPlanets();
   }, []);
 
@@ -44,7 +32,7 @@ function App() {
           <Home />
         </Route>
         <Route exact path="/part1">
-          <Trivia vehicles={vehicles} />
+          <Trivia />
         </Route>
         <Route exact path="/part2">
           <Planets planets={planets} />

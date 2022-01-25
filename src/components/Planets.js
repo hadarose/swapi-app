@@ -3,13 +3,15 @@ import maxBy from "lodash.maxby";
 import Chart from "./Chart";
 import Bar from "./Bar";
 
+const SCALE = 100000;
+
 export const Planets = ({ planets }) => {
   let customPlanets = planets
     .filter((planet) => planet.population !== "unknown")
     .map((planet) => {
       return {
         ...planet,
-        convertedPopulation: Number(planet.population) / 100000,
+        convertedPopulation: Number(planet.population) / SCALE,
       };
     });
 

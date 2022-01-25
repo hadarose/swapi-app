@@ -1,10 +1,25 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-export const Trivia = ({ vehicles }) => {
+export const Trivia = () => {
   const [maxPopVehicle, setMaxPopVehicle] = useState("");
   const [pilots, setPilots] = useState([]);
   const [planets, setPlanets] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+
+  useEffect(() => {
+    const getVehicles = async () => {
+      try {
+        let response = await axios.get("https://swapi.py4e.com/api/vehicles/");
+        let vehiclesData = response.data.results;
+        setVehicles(vehiclesData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getVehicles();
+  }, []);
 
   useEffect(() => {
     let pilotsUrls = vehicles.map((vehicle) => vehicle.pilots).flat();
@@ -23,9 +38,8 @@ export const Trivia = ({ vehicles }) => {
             name: responsePlanets.data.name,
             population: responsePlanets.data.population,
           });
-          // Getting planets' population
-          let homeWorld = await axios.get(response.data.homeworld);
-          sum += Number(homeWorld.data.population);
+          // Summing planets' population
+          sum += Number(responsePlanets.data.population);
           if (sum > maxSum) {
             maxSum = sum;
             setMaxPopVehicle(vehicle.name);
