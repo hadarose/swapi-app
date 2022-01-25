@@ -6,7 +6,7 @@
 
 
 ### SWAPI APP was especially designed for Star Wars Geeks
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), React/Hooks and Bootstrap.
+This project was created with [Create React App](https://github.com/facebook/create-react-app), React/Hooks and Bootstrap.
 No library was used for the bar chart.
 
 ## Available Scripts
