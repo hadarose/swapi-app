@@ -1,6 +1,5 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import { Switch, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
@@ -8,22 +7,6 @@ import Trivia from "./components/Trivia";
 import Planets from "./components/Planets";
 
 function App() {
-  const [planets, setPlanets] = useState([]);
-
-  useEffect(() => {
-    const getPlanets = async () => {
-      try {
-        let response = await axios.get("https://swapi.py4e.com/api/planets");
-        let planetsData = response.data.results;
-        setPlanets(planetsData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getPlanets();
-  }, []);
-
   return (
     <>
       <NavBar />
@@ -35,7 +18,7 @@ function App() {
           <Trivia />
         </Route>
         <Route exact path="/part2">
-          <Planets planets={planets} />
+          <Planets />
         </Route>
       </Switch>
     </>

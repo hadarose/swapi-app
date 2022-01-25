@@ -1,30 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import maxBy from "lodash.maxby";
 import Chart from "./Chart";
 import Bar from "./Bar";
 
 const SCALE = 100000;
 
-export const Planets = ({ planets }) => {
-  let customPlanets = planets
-    .filter((planet) => planet.population !== "unknown")
-    .map((planet) => {
-      return {
-        ...planet,
-        convertedPopulation: Number(planet.population) / SCALE,
-      };
-    });
-
-  const maxPopulation = maxBy(
-    customPlanets,
-    (planet) => planet.convertedPopulation
-  ).convertedPopulation;
-
+export const Planets = () => {
+  const [planets, setPlanets] = useState([]);
+  const [chartHeight, setChartHeight] = useState(0);
+  const [chartWidth, setChartWidth] = useState(0);
+  const [maxPop, setMaxPop] = useState();
   const barWidth = 75;
   const barMargin = 30;
-  const bars = planets.length;
-  const chartHeight = maxPopulation > 500 ? 500 : maxPopulation;
-  let chartWidth = bars * (barWidth + barMargin);
+
+  useEffect(() => {
+    const getPlanets = async () => {
+      try {
+        let response = await axios.get("https://swapi.py4e.com/api/planets");
+        let planetsData = response.data.results;
+
+        let customPlanets = planetsData
+          .filter((planet) => planet.population !== "unknown")
+          .map((planet) => {
+            return {
+              ...planet,
+              convertedPopulation: Number(planet.population) / SCALE,
+            };
+          });
+
+        setPlanets(customPlanets);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getPlanets();
+  }, []);
+
+  useEffect(() => {
+    if (planets.length === 0) {
+      return;
+    }
+
+    const maxPopulation = maxBy(
+      planets,
+      (planet) => planet.convertedPopulation
+    ).convertedPopulation;
+
+    const bars = planets.length;
+    setChartHeight(maxPopulation > 500 ? 500 : maxPopulation);
+    setChartWidth(bars * (barWidth + barMargin));
+    setMaxPop(maxPopulation);
+  }, [planets]);
 
   return (
     <>
@@ -35,7 +63,7 @@ export const Planets = ({ planets }) => {
       </p>
 
       <Chart height={chartHeight} width={chartWidth}>
-        {customPlanets.map((planet, index) => {
+        {planets.map((planet, index) => {
           const barHeight =
             planet.convertedPopulation > 50000
               ? chartHeight
@@ -49,7 +77,7 @@ export const Planets = ({ planets }) => {
               width={barWidth}
               height={barHeight}
               planet={planet.name}
-              isHighest={maxPopulation === planet.convertedPopulation}
+              isHighest={maxPop === planet.convertedPopulation}
               chartHeight={chartHeight}
               originalPopulation={planet.population}
             />
